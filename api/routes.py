@@ -18,6 +18,12 @@ router = APIRouter()
 _agent = PhotographerAgent()
 
 
+@router.get("/health", summary="Health check")
+async def health_check() -> JSONResponse:
+    """Return a simple alive signal used by the frontend health indicator."""
+    return JSONResponse(content={"status": "ok"})
+
+
 @router.post("/process", summary="Process a single RAW (.ARW) file")
 async def process_single(file: UploadFile = File(...)) -> JSONResponse:
     """Upload a single .ARW file, apply LLM-guided adjustments, return the JPEG.

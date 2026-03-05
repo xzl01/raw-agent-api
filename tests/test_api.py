@@ -38,6 +38,28 @@ def _dummy_arw_bytes() -> bytes:
 
 
 # ---------------------------------------------------------------------------
+# /health endpoint
+# ---------------------------------------------------------------------------
+
+class TestHealthEndpoint:
+    def test_health_returns_200(self, client: TestClient) -> None:
+        response = client.get("/health")
+        assert response.status_code == 200
+        assert response.json() == {"status": "ok"}
+
+
+# ---------------------------------------------------------------------------
+# Root (frontend) route
+# ---------------------------------------------------------------------------
+
+class TestRootRoute:
+    def test_root_serves_html(self, client: TestClient) -> None:
+        response = client.get("/")
+        assert response.status_code == 200
+        assert "text/html" in response.headers.get("content-type", "")
+
+
+# ---------------------------------------------------------------------------
 # /process endpoint
 # ---------------------------------------------------------------------------
 
